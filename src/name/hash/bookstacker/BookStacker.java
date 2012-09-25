@@ -2,41 +2,61 @@ package name.hash.bookstacker;
 
 public class BookStacker {
 	public static final String LOG_TAG = "name.hash.bookStacker";
-	enum BooksTable{
-		BooksId,//primary key
-		title,
-		vol,
-		author,
-		subtitle,
-		publisher,//o”ÅĞ
-		issue,//”­s“ú
-		management_id,//ISBN
-		category,//ƒJƒeƒSƒŠ
-		registered,//“o˜^“ú
-		;
-		final long version = 1L;
-	}
-	enum ShoppingListTable{
-		ShoppingListId,//primary key
-		title,
-		vol,
-		author,
-		subtitle,
+
+	enum BooksTable {
+		// primary key
+		booksId,
+		//
+		title, vol, author, subtitle,
+		// o”ÅĞ
 		publisher,
-		;
+		// ”­s“ú
+		issue,
+		// ISBN
+		management_id,
+		// ƒJƒeƒSƒŠ
+		category,
+		// “o˜^“ú
+		registered,
+		// •\†‰æ‘œID
+		coverImageId, ;
+		final int version = 1;
 	}
-	enum PublisherImageTable{
-		publisher,//unique key
-		publisher_image,;
+
+	enum ShoppingListTable {
+		// primary key
+		shoppingListId,
+		//
+		title, vol, author, subtitle, publisher,
+		// à–¾•¶
+		description,
+		// •\†‰æ‘œID
+		coverImageId, ;
+
 	}
-	enum CoverImageTable{
-		BooksID,//primary key
-		cover_image,;
+
+	enum PublisherImageTable {
+		// primary and unique key
+		publisher,
+		// publisher icon image path
+		publisher_image, ;
 	}
-	enum PriceMemoTable{
-		PriceMemoId,//primary key
-		ShoppingListId,
-		price,//‰¿Ši
-		place,;//êŠ
+
+	enum CoverImageTable {
+		// primary key
+		booksId,
+		// books cover image
+		cover_image, ;
+	}
+
+	enum PriceMemoTable {
+		// primary key
+		priceMemoId,
+		//
+		shoppingListId,
+		// ‰¿Ši
+		price,
+		// êŠ
+		place, ;
 	}
 }

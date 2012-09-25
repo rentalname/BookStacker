@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class BookList extends Activity {
+public class BookListView extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
