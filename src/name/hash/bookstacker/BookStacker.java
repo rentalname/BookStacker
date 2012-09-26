@@ -6,57 +6,68 @@ public class BookStacker {
 	enum BooksTable {
 		// primary key
 		booksId,
-		//
-		title, vol, author, subtitle,
+		// books title
+		title,
+		// books Vol.
+		vol,
+		// books author
+		author,
+		// books subtitle
+		subtitle,
 		// o”ÅĞ
 		publisher,
 		// ”­s“ú
 		issue,
 		// ISBN
-		management_id,
+		managementId,
 		// ƒJƒeƒSƒŠ
 		category,
 		// “o˜^“ú
-		registered,
-		// •\†‰æ‘œID
-		coverImageId, ;
+		registered, ;
 		final int version = 1;
 	}
 
 	enum ShoppingListTable {
 		// primary key
 		shoppingListId,
-		//
-		title, vol, author, subtitle, publisher,
-		// à–¾•¶
-		description,
-		// •\†‰æ‘œID
-		coverImageId, ;
-
-	}
-
-	enum PublisherImageTable {
-		// primary and unique key
+		// books title
+		title,
+		// books Vol.
+		vol,
+		// books author
+		author,
+		// books subtitle
+		subtitle,
+		// publisher
 		publisher,
-		// publisher icon image path
-		publisher_image, ;
-	}
-
-	enum CoverImageTable {
-		// primary key
-		booksId,
-		// books cover image
-		cover_image, ;
+		// à–¾
+		description, ;
+		final int version = 1;
 	}
 
 	enum PriceMemoTable {
 		// primary key
 		priceMemoId,
-		//
+		// memo id
 		shoppingListId,
 		// ‰¿Ši
 		price,
 		// êŠ
 		place, ;
+		final int version = 1;
+	}
+
+	enum PublisherImageTable {
+		// unique key
+		publisher,
+		// publisher image path
+		publisherImage, ;
+	}
+
+	enum CoverImageTable {
+		// primary key
+		booksId,
+		// books cover image path
+		coverImage, ;
 	}
 }
