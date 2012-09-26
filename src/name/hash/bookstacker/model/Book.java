@@ -1,4 +1,4 @@
-package name.hash.bookstacker;
+package name.hash.bookstacker.model;
 
 public class Book {
 	String title;

@@ -1,5 +1,8 @@
-package name.hash.bookstacker;
+package name.hash.bookstacker.view;
 
+import name.hash.bookstacker.R;
+import name.hash.bookstacker.R.layout;
+import name.hash.bookstacker.R.menu;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;

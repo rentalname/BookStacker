@@ -6,14 +6,8 @@ public class BookStacker {
 	enum BooksTable {
 		// primary key
 		booksId,
-		// books title
-		title,
-		// books Vol.
-		vol,
-		// books author
-		author,
-		// books subtitle
-		subtitle,
+		//
+		title, vol, author, subtitle,
 		// 出版社
 		publisher,
 		// 発行日
@@ -23,25 +17,21 @@ public class BookStacker {
 		// カテゴリ
 		category,
 		// 登録日
-		registered, ;
+		registered,
+		// 表紙画像ID
+		coverImageId, ;
 		final int version = 1;
 	}
 
 	enum ShoppingListTable {
 		// primary key
 		shoppingListId,
-		// books title
-		title,
-		// books Vol.
-		vol,
-		// books author
-		author,
-		// books subtitle
-		subtitle,
-		// publisher
-		publisher,
+		//
+		title, vol, author, subtitle, publisher,
 		// 説明
-		description, ;
+		description,
+		//
+		coverImageId, ;
 		final int version = 1;
 	}
 
@@ -66,7 +56,7 @@ public class BookStacker {
 
 	enum CoverImageTable {
 		// primary key
-		booksId,
+		coverImageId,
 		// books cover image path
 		coverImage, ;
 	}
