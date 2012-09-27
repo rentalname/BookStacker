@@ -6,14 +6,16 @@ import java.util.List;
 import name.hash.bookstacker.R;
 import name.hash.bookstacker.model.Book;
 import name.hash.bookstacker.model.DefaultBook;
-import android.app.ListActivity;
 import android.os.Bundle;
-import android.view.Menu;
 
-public class BookListView extends ListActivity {
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+
+public class BookListView extends SherlockListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.book_list);
 		List<Book> books = new ArrayList<Book>();
@@ -25,7 +27,8 @@ public class BookListView extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_book_list, menu);
-		return true;
+		getSupportMenuInflater().inflate(R.menu.activity_book_list, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
+
 }
