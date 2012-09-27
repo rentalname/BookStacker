@@ -4,5 +4,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_book_list">BookList</string>
+    <string name="stubTitle">booktitleBOOKTITLEbookTitleBooktitle</string>
+    <string name="stubVol">7</string>
+    <string name="stubAuthor">BookAuthor</string>
+    <string name="stubPublisher">BookPublisherInc</string>
+    <string name="book_icon_description">book icon in</string>
+    <string name="publisher_icon_description">publisher icon in</string>
 
 </resources>

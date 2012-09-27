@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical" >
+
+        <ImageView
+            android:id="@+id/bookIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/book_icon_description"
+            android:src="@drawable/null_image" />
+
+        <TextView
+            android:id="@+id/book_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxWidth="250dp"
+            android:text="@string/stubTitle"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/book_vol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stubVol"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right|center_vertical" >
+
+        <TextView
+            android:id="@+id/book_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@string/stubAuthor"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/publisherIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/publisher_icon_description"
+            android:src="@drawable/null_image" />
+
+        <TextView
+            android:id="@+id/book_publisher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@string/stubPublisher"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>
