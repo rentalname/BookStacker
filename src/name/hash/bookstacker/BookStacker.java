@@ -1,8 +1,5 @@
 package name.hash.bookstacker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.provider.BaseColumns;
 
 public class BookStacker {
@@ -10,11 +7,15 @@ public class BookStacker {
 	public static final String DB_NAME = "books.db";
 	public static final int DB_VERSION = 1;
 
+	public enum SQLiteType {
+		text, real, blob, integer
+	}
+
 	public enum BooksTable implements DBTable {
 		// primary key
-		booksId(BaseColumns._ID),
+		booksId(BaseColumns._ID, SQLiteType.integer, "primary key autoincrement"),
 		//
-		title, vol, author, subtitle,
+		title, vol(SQLiteType.integer), author, subtitle,
 		// èoî≈é–
 		publisher,
 		// î≠çsì˙
@@ -26,20 +27,44 @@ public class BookStacker {
 		// ìoò^ì˙
 		registered,
 		// ï\éÜâÊëúID
-		coverImageId, ;
+		coverImageId(SQLiteType.integer), ;
 		public String columnName;
+		public String columnType;
+		public String option;
 
 		private BooksTable() {
 			columnName = name();
+			columnType = SQLiteType.text.name();
 		}
 
-		private BooksTable(String name) {
+		private BooksTable(SQLiteType type) {
+			columnName = name();
+			columnType = type.name();
+		}
+
+		private BooksTable(String name, SQLiteType type) {
+			this(name, type, null);
+		}
+
+		private BooksTable(String name, SQLiteType type, String _option) {
 			columnName = name;
+			columnType = type.name();
+			option = _option;
 		}
 
 		@Override
 		public String getColumnName() {
 			return columnName;
+		}
+
+		@Override
+		public String getColumnType() {
+			return columnType;
+		}
+
+		@Override
+		public String getOption() {
+			return option;
 		}
 
 		public static String getTableName() {
@@ -49,26 +74,50 @@ public class BookStacker {
 
 	public enum ShoppingListTable implements DBTable {
 		// primary key
-		shoppingListId(BaseColumns._ID),
+		shoppingListId(BaseColumns._ID, SQLiteType.integer, "primary key autoincrement"),
 		//
-		title, vol, author, subtitle, publisher,
+		title, vol(SQLiteType.integer), author, subtitle, publisher,
 		// ê‡ñæ
 		description,
 		//
-		coverImageId, ;
+		coverImageId(SQLiteType.integer), ;
 		String columnName;
+		public String columnType;
+		public String option;
 
 		private ShoppingListTable() {
 			columnName = name();
+			columnType = SQLiteType.text.name();
+		}
+
+		private ShoppingListTable(SQLiteType type) {
+			columnName = name();
+			columnType = type.name();
 		}
 
 		private ShoppingListTable(String name) {
 			columnName = name;
 		}
 
+		private ShoppingListTable(String name, SQLiteType type, String _option) {
+			columnName = name;
+			columnType = type.name();
+			option = _option;
+		}
+
 		@Override
 		public String getColumnName() {
 			return columnName;
+		}
+
+		@Override
+		public String getColumnType() {
+			return columnType;
+		}
+
+		@Override
+		public String getOption() {
+			return option;
 		}
 
 		public static String getTableName() {
@@ -76,28 +125,48 @@ public class BookStacker {
 		}
 	}
 
-	enum GoodsTable implements DBTable {
+	public enum GoodsTable implements DBTable {
 		// primary key
-		priceMemoId(BaseColumns._ID),
+		priceMemoId(BaseColumns._ID, SQLiteType.integer, "primary key autoincrement"),
 		// memo id
-		shoppingListId,
+		shoppingListId(SQLiteType.integer),
 		// âøäi
-		price,
+		price(SQLiteType.integer),
 		// èÍèä
 		place, ;
 		String columnName;
+		public String columnType;
+		public String option;
 
 		private GoodsTable() {
 			columnName = name();
+			columnType = SQLiteType.text.name();
 		}
 
-		private GoodsTable(String name) {
+		private GoodsTable(SQLiteType type) {
+			columnName = name();
+			columnType = type.name();
+		}
+
+		private GoodsTable(String name, SQLiteType type, String _option) {
 			columnName = name;
+			columnType = type.name();
+			option = _option;
 		}
 
 		@Override
 		public String getColumnName() {
 			return columnName;
+		}
+
+		@Override
+		public String getColumnType() {
+			return columnType;
+		}
+
+		@Override
+		public String getOption() {
+			return option;
 		}
 
 		public static String getTableName() {
@@ -105,19 +174,19 @@ public class BookStacker {
 		}
 	}
 
-	enum PublisherImageTable implements DBTable {
+	public enum PublisherImageTable implements DBTable {
 		// unique key
-		publisher(BaseColumns._ID),
+		publisher(BaseColumns._ID, SQLiteType.integer, "primary key autoincrement"),
 		// publisher image path
-		publisherImage, ;
+		publisherImage("publisher_image", SQLiteType.text, "unique"), ;
 		String columnName;
+		public String columnType;
+		public String option;
 
-		private PublisherImageTable() {
-			columnName = name();
-		}
-
-		private PublisherImageTable(String name) {
+		PublisherImageTable(String name, SQLiteType type, String _option) {
 			columnName = name;
+			columnType = type.name();
+			option = _option;
 		}
 
 		@Override
@@ -125,24 +194,39 @@ public class BookStacker {
 			return columnName;
 		}
 
+		@Override
+		public String getColumnType() {
+			return columnType;
+		}
+
+		@Override
+		public String getOption() {
+			return option;
+		}
+
 		public static String getTableName() {
 			return "publisher_table";
 		}
 	}
 
-	enum CoverImageTable implements DBTable {
+	public enum CoverImageTable implements DBTable {
 		// primary key
-		coverImageId(BaseColumns._ID),
+		coverImageId(BaseColumns._ID, SQLiteType.integer, "primary key autoincrement"),
 		// books cover image path
 		coverImage, ;
 		String columnName;
+		public String columnType;
+		public String option;
 
 		private CoverImageTable() {
 			columnName = name();
+			columnType = SQLiteType.text.name();
 		}
 
-		private CoverImageTable(String name) {
+		private CoverImageTable(String name, SQLiteType type, String _option) {
 			columnName = name;
+			columnType = type.name();
+			option = _option;
 		}
 
 		@Override
@@ -153,6 +237,15 @@ public class BookStacker {
 		public static String getTableName() {
 			return "cover_image_table";
 		}
-	}
 
+		@Override
+		public String getColumnType() {
+			return columnType;
+		}
+
+		@Override
+		public String getOption() {
+			return option;
+		}
+	}
 }
