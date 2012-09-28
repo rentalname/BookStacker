@@ -8,4 +8,4 @@
 *.jar
 *.war
 *.ear
-/project.properties
+project.properties
