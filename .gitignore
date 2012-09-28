@@ -1,5 +1,6 @@
 *.class
 .classpath
+project.properties
 /bin
 /gen
 /libs
@@ -8,4 +9,4 @@
 *.jar
 *.war
 *.ear
-project.properties
+
