@@ -1,11 +1,18 @@
 package name.hash.bookstacker;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.provider.BaseColumns;
+
 public class BookStacker {
 	public static final String LOG_TAG = "name.hash.bookStacker";
+	public static final String DB_NAME = "books.db";
+	public static final int DB_VERSION = 1;
 
-	enum BooksTable {
+	public enum BooksTable implements DBTable {
 		// primary key
-		booksId,
+		booksId(BaseColumns._ID),
 		//
 		title, vol, author, subtitle,
 		// èoî≈é–
@@ -20,44 +27,132 @@ public class BookStacker {
 		registered,
 		// ï\éÜâÊëúID
 		coverImageId, ;
-		final int version = 1;
+		public String columnName;
+
+		private BooksTable() {
+			columnName = name();
+		}
+
+		private BooksTable(String name) {
+			columnName = name;
+		}
+
+		@Override
+		public String getColumnName() {
+			return columnName;
+		}
+
+		public static String getTableName() {
+			return "books_table";
+		}
 	}
 
-	enum ShoppingListTable {
+	public enum ShoppingListTable implements DBTable {
 		// primary key
-		shoppingListId,
+		shoppingListId(BaseColumns._ID),
 		//
 		title, vol, author, subtitle, publisher,
 		// ê‡ñæ
 		description,
 		//
 		coverImageId, ;
-		final int version = 1;
+		String columnName;
+
+		private ShoppingListTable() {
+			columnName = name();
+		}
+
+		private ShoppingListTable(String name) {
+			columnName = name;
+		}
+
+		@Override
+		public String getColumnName() {
+			return columnName;
+		}
+
+		public static String getTableName() {
+			return "shopping_list_table";
+		}
 	}
 
-	enum PriceMemoTable {
+	enum GoodsTable implements DBTable {
 		// primary key
-		priceMemoId,
+		priceMemoId(BaseColumns._ID),
 		// memo id
 		shoppingListId,
 		// âøäi
 		price,
 		// èÍèä
 		place, ;
-		final int version = 1;
+		String columnName;
+
+		private GoodsTable() {
+			columnName = name();
+		}
+
+		private GoodsTable(String name) {
+			columnName = name;
+		}
+
+		@Override
+		public String getColumnName() {
+			return columnName;
+		}
+
+		public static String getTableName() {
+			return "goods_table";
+		}
 	}
 
-	enum PublisherImageTable {
+	enum PublisherImageTable implements DBTable {
 		// unique key
-		publisher,
+		publisher(BaseColumns._ID),
 		// publisher image path
 		publisherImage, ;
+		String columnName;
+
+		private PublisherImageTable() {
+			columnName = name();
+		}
+
+		private PublisherImageTable(String name) {
+			columnName = name;
+		}
+
+		@Override
+		public String getColumnName() {
+			return columnName;
+		}
+
+		public static String getTableName() {
+			return "publisher_table";
+		}
 	}
 
-	enum CoverImageTable {
+	enum CoverImageTable implements DBTable {
 		// primary key
-		coverImageId,
+		coverImageId(BaseColumns._ID),
 		// books cover image path
 		coverImage, ;
+		String columnName;
+
+		private CoverImageTable() {
+			columnName = name();
+		}
+
+		private CoverImageTable(String name) {
+			columnName = name;
+		}
+
+		@Override
+		public String getColumnName() {
+			return columnName;
+		}
+
+		public static String getTableName() {
+			return "cover_image_table";
+		}
 	}
+
 }
