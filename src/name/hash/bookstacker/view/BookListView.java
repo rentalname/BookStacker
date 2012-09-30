@@ -1,6 +1,5 @@
 package name.hash.bookstacker.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import name.hash.bookstacker.R;
@@ -18,10 +17,9 @@ public class BookListView extends SherlockListActivity {
 		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.book_list);
-		List<Book> books = new ArrayList<Book>();
-		for (int i = 0; i < 20; i++) {
-			books.add(new Book(new DefaultBook()));
-		}
+		BooksDAO helper = new BookListHelper(this);
+		helper.insertBook(new DefaultBook());
+		List<Book> books = helper.getBooks();
 		setListAdapter(new BookListAdapter(this, books));
 	}
 

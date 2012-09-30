@@ -1,5 +1,7 @@
 package name.hash.bookstacker.model;
 
+import name.hash.bookstacker.BookStacker.LibraryTable;
+
 public class BookBuilder {
 	Book book;
 
@@ -27,7 +29,36 @@ public class BookBuilder {
 		book.publisher = publisher;
 	}
 	
-	public Book build(){
+	public Book build() {
 		return book;
+	}
+
+	public void append(int num, LibraryTable libraryTable) {
+		switch (libraryTable) {
+		case id:
+		case coverImageId:
+			break;
+		case vol:
+			setVol(num);
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void append(String str, LibraryTable libraryTable) {
+		switch (libraryTable) {
+		case title:
+			setTitle(str);
+			break;
+		case author:
+			setAuthor(str);
+			break;
+		case publisher:
+			setPublisher(str);
+			break;
+		default:
+			break;
+		}
 	}
 }
