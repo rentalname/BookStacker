@@ -23,7 +23,7 @@ public class BookListHelper implements BooksDAO {
 
 	@Override
 	public void insertBook(Book book) {
-		DBReadHelper.getInstance(cliantContext).insertBook(book);
+		BookStackDBHelper.getInstance(cliantContext).insertBook(book);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class BookListHelper implements BooksDAO {
 	@Override
 	public List<Book> getBooks() {
 		List<Book> books = new ArrayList<Book>();
-		Cursor all = DBReadHelper.getInstance(cliantContext).findAllBooks();
+		Cursor all = BookStackDBHelper.getInstance(cliantContext).findAllBooks();
 		Log.i(BookStacker.LOG_TAG, all.getColumnCount() + ":" + all.getCount() + ":" + all.toString());
 		all.moveToFirst();
 		do {
@@ -53,12 +53,12 @@ public class BookListHelper implements BooksDAO {
 
 	@Override
 	public int getCategoryNum() {
-		return DBReadHelper.getInstance(cliantContext).getCategoryMum();
+		return BookStackDBHelper.getInstance(cliantContext).getCategoryMum();
 	}
 
 	@Override
 	public Uri getPublisherIcon(Book book) {
-		Uri uri = DBReadHelper.getInstance(cliantContext).getPublisherImageUri(book.getPublisher());
+		Uri uri = BookStackDBHelper.getInstance(cliantContext).getPublisherImageUri(book.getPublisher());
 		return uri != null ? uri : Uri.parse(STUB_PUBLISHER_ICON);
 	}
 

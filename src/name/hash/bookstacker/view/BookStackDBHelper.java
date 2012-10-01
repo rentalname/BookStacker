@@ -1,5 +1,7 @@
 package name.hash.bookstacker.view;
 
+import java.io.File;
+
 import name.hash.bookstacker.BookStacker;
 import name.hash.bookstacker.BookStacker.BuyTable;
 import name.hash.bookstacker.BookStacker.CoverTable;
@@ -11,22 +13,30 @@ import name.hash.bookstacker.model.Book;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
 
-public class DBReadHelper extends SQLiteOpenHelper {
-	private static DBReadHelper instans;
+public class BookStackDBHelper extends SQLiteOpenHelper {
+	private static final String DB_ENV = Environment.getExternalStorageDirectory() + "/" + BookStacker.DB_NAME;
+	private static BookStackDBHelper instans;
+	SQLiteDatabase mDb;
+	private StringBuilder mBuilder = new StringBuilder();
+	static Context mContext;
 
-	public DBReadHelper(Context context, String name, CursorFactory factory, int version) {
+	public BookStackDBHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
 	}
 
-	public static DBReadHelper getInstance(Context context) {
+	public static BookStackDBHelper getInstance(Context context) {
+		mContext = context;
 		if (instans == null) {
-			return instans = new DBReadHelper(context, BookStacker.DB_NAME, null, BookStacker.DB_VERSION);
+			return instans = new BookStackDBHelper(context, DB_ENV, null, BookStacker.DB_VERSION);
 		} else {
 			return instans;
 		}
@@ -34,16 +44,20 @@ public class DBReadHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		initializeTable(db);
+		if(!open()){
+			throw new SQLException();
+		}
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE " + LibraryTable.getTableName());
-		db.execSQL("DROP TABLE " + BuyTable.getTableName());
-		db.execSQL("DROP TABLE " + PriceTable.getTableName());
-		db.execSQL("DROP TABLE " + PublisherTable.getTableName());
-		db.execSQL("DROP TABLE " + CoverTable.getTableName());
+		db.execSQL("DROP TABLE IF EXISTS " + LibraryTable.getTableName());
+		db.execSQL("DROP TABLE IF EXISTS " + BuyTable.getTableName());
+		db.execSQL("DROP TABLE IF EXISTS " + PriceTable.getTableName());
+		db.execSQL("DROP TABLE IF EXISTS " + PublisherTable.getTableName());
+		db.execSQL("DROP TABLE IF EXISTS " + CoverTable.getTableName());
+
+		onCreate(db);
 	}
 
 	public Cursor findAllBooks() {
@@ -92,6 +106,33 @@ public class DBReadHelper extends SQLiteOpenHelper {
 		return Uri.parse(path);
 	}
 
+	protected synchronized boolean open() throws SQLException {
+
+		if (mDb != null && mDb.isOpen()) {
+			return true;
+		} else {
+			StringBuilder builder = mBuilder;
+			// open or create a new directory
+			builder.setLength(0);
+			builder.append(Environment.getExternalStorageDirectory()).append(File.separator)
+					.append(mContext.getPackageName());
+			File directory = new File(builder.toString());
+			directory.mkdirs();
+			builder.setLength(0);
+			builder.append(directory.getAbsolutePath()).append(File.separator).append(BookStacker.DB_NAME);
+			String fullPathName = builder.toString();
+			try {
+				Log.d(BookStacker.LOG_TAG, "Opening database: " + fullPathName); //$NON-NLS-1$
+				mDb = SQLiteDatabase.openOrCreateDatabase(fullPathName, null);
+				initializeTable(mDb);// my sql statement to create tables if not exist
+			} catch (SQLException e) {
+				Log.e(BookStacker.LOG_TAG, "failed to open" + e);
+				throw e;
+			}
+		}
+		return true;
+	}
+
 	private void initializeTable(SQLiteDatabase db) {
 		initializeTable(db, LibraryTable.getTableName(), LibraryTable.class.getEnumConstants());
 		initializeTable(db, BuyTable.getTableName(), BuyTable.class.getEnumConstants());
@@ -101,7 +142,7 @@ public class DBReadHelper extends SQLiteOpenHelper {
 	}
 
 	private void initializeTable(SQLiteDatabase db, String tableName, DBTable[] table) {
-		db.execSQL("CREATE TABLE" + " " + tableName + " ( " + createColomnQuery(table) + " );");
+		db.execSQL("CREATE TABLE IF NOT EXISTS" + " " + tableName + " ( " + createColomnQuery(table) + " );");
 	}
 
 	private String createColomnQuery(DBTable[] table) {
