@@ -24,27 +24,20 @@ import android.util.Log;
 
 public class BookStackDBHelper extends SQLiteOpenHelper {
 	private static final String DB_ENV = Environment.getExternalStorageDirectory() + "/" + BookStacker.DB_NAME;
-	private static BookStackDBHelper instans;
 	SQLiteDatabase mDb;
 	private StringBuilder mBuilder = new StringBuilder();
-	static Context mContext;
 
 	public BookStackDBHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
 	}
 
-	public static BookStackDBHelper getInstance(Context context) {
-		mContext = context;
-		if (instans == null) {
-			return instans = new BookStackDBHelper(context, DB_ENV, null, BookStacker.DB_VERSION);
-		} else {
-			return instans;
-		}
+	public BookStackDBHelper(Context context) {
+		this(context, DB_ENV, null, BookStacker.DB_VERSION);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		if(!open()){
+		if (!open()) {
 			throw new SQLException();
 		}
 	}
@@ -114,8 +107,7 @@ public class BookStackDBHelper extends SQLiteOpenHelper {
 			StringBuilder builder = mBuilder;
 			// open or create a new directory
 			builder.setLength(0);
-			builder.append(Environment.getExternalStorageDirectory()).append(File.separator)
-					.append(mContext.getPackageName());
+			builder.append(Environment.getExternalStorageDirectory()).append(File.separator).append("database");
 			File directory = new File(builder.toString());
 			directory.mkdirs();
 			builder.setLength(0);

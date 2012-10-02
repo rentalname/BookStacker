@@ -5,7 +5,6 @@ import java.util.List;
 
 import name.hash.bookstacker.BookStacker;
 import name.hash.bookstacker.BookStacker.LibraryTable;
-import name.hash.bookstacker.BookStacker.SQLiteType;
 import name.hash.bookstacker.model.Book;
 import name.hash.bookstacker.model.BookBuilder;
 import android.content.Context;
@@ -13,17 +12,16 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-public class BookListHelper implements BooksDAO {
+public class BookListDAO implements BooksDAO {
 	private static final String STUB_PUBLISHER_ICON = "/mnt/sdcard/picture/stub_publisher_icon.png";
-	private Context cliantContext;
-
-	public BookListHelper(Context context) {
-		cliantContext = context;
+	private BookStackDBHelper mHelper;
+	public BookListDAO(Context context) {
+		mHelper = new BookStackDBHelper(context);
 	}
 
 	@Override
 	public void insertBook(Book book) {
-		BookStackDBHelper.getInstance(cliantContext).insertBook(book);
+		mHelper.insertBook(book);
 	}
 
 	@Override
@@ -41,7 +39,7 @@ public class BookListHelper implements BooksDAO {
 	@Override
 	public List<Book> getBooks() {
 		List<Book> books = new ArrayList<Book>();
-		Cursor all = BookStackDBHelper.getInstance(cliantContext).findAllBooks();
+		Cursor all = mHelper.findAllBooks();
 		Log.i(BookStacker.LOG_TAG, all.getColumnCount() + ":" + all.getCount() + ":" + all.toString());
 		all.moveToFirst();
 		do {
@@ -53,37 +51,21 @@ public class BookListHelper implements BooksDAO {
 
 	@Override
 	public int getCategoryNum() {
-		return BookStackDBHelper.getInstance(cliantContext).getCategoryMum();
+		return mHelper.getCategoryMum();
 	}
 
 	@Override
 	public Uri getPublisherIcon(Book book) {
-		Uri uri = BookStackDBHelper.getInstance(cliantContext).getPublisherImageUri(book.getPublisher());
+		Uri uri = mHelper.getPublisherImageUri(book.getPublisher());
 		return uri != null ? uri : Uri.parse(STUB_PUBLISHER_ICON);
 	}
-
+	private BookBuilder builder; 
 	private Book toBook(Cursor c) {
-		LibraryTable[] values = LibraryTable.values();
-		BookBuilder builder = BookBuilder.newBuilder();
-		for (LibraryTable libraryTable : values) {
-			switch (SQLiteType.valueOf(libraryTable.getColumnType())) {
-			case integer:
-				int i = c.getInt(c.getColumnIndex(libraryTable.getColumnName()));
-				builder.append(i, libraryTable);
-				break;
-			case text:
-				String s = c.getString(c.getColumnIndex(libraryTable.getColumnName()));
-				builder.append(s, libraryTable);
-				break;
-			case real:
-			case blob:
-				Log.w(BookStacker.LOG_TAG, "Unused Type is Used " + getClass().getCanonicalName());
-				break;
-			default:
-				Log.e(BookStacker.LOG_TAG, "Error:" + getClass().getCanonicalName());
-				break;
-			}
-		}
+		builder = BookBuilder.newBuilder();
+		builder.setTitle(c.getString(c.getColumnIndex(LibraryTable.title.getColumnName())));
+		builder.setVol(c.getInt(c.getColumnIndex(LibraryTable.vol.getColumnName())));
+		builder.setAuthor(c.getString(c.getColumnIndex(LibraryTable.author.getColumnName())));
+		builder.setPublisher(c.getString(c.getColumnIndex(LibraryTable.publisher.getColumnName())));
 		return builder.build();
 	}
 
