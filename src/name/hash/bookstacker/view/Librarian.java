@@ -76,8 +76,8 @@ public class Librarian implements BookDAO {
 
 	@Override
 	public boolean updateBook(int id, Book book) {
-		int update = mdb.update(LibraryTable.getTableName(), getBookContenValue(book), "?=?", new String[] {
-				LibraryTable.id.getColumnName(), String.valueOf(id) });
+		int update = mdb.update(LibraryTable.getTableName(), getBookContenValue(book),
+				String.format("%s=%d", LibraryTable.id.getColumnName(), id), null);
 		if (update <= 0) {
 			return false;
 		}
