@@ -17,9 +17,9 @@ public class BookListView extends SherlockListActivity {
 		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.book_list);
-		BooksDAO helper = new BookListDAO(this);
+		BooksDAO helper = new BookListDAO(getApplicationContext());
 		helper.insertBook(new DefaultBook());
-		List<Book> books = helper.getBooks();
+		List<Book> books = helper.findAllBooks();
 		setListAdapter(new BookListAdapter(this, books));
 	}
 

@@ -13,15 +13,15 @@ import android.net.Uri;
  */
 public interface BooksDAO {
 
-	Uri getPublisherIcon(Book book);
+	Uri getPublisherIconUri(Book book);
 
 	int getCategoryNum();
 
-	List<Book> getBooks();
+	List<Book> findAllBooks();
 
 	void insertBook(Book book);
 
-	void updateBook(Book book);
+	void updateBook(int id,Book book);
 
 	void deleteBook(Book book);
 

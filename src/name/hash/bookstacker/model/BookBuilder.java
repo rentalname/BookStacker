@@ -18,7 +18,7 @@ public class BookBuilder {
 	}
 
 	public void setAuthor(String author) {
-		book.title = author;
+		book.author = author;
 	}
 
 	public void setVol(int vol) {

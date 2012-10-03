@@ -5,61 +5,102 @@ import java.util.List;
 
 import name.hash.bookstacker.BookStacker;
 import name.hash.bookstacker.BookStacker.LibraryTable;
+import name.hash.bookstacker.BookStacker.PublisherTable;
 import name.hash.bookstacker.model.Book;
 import name.hash.bookstacker.model.BookBuilder;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
 public class BookListDAO implements BooksDAO {
 	private static final String STUB_PUBLISHER_ICON = "/mnt/sdcard/picture/stub_publisher_icon.png";
-	private BookStackDBHelper mHelper;
-	public BookListDAO(Context context) {
-		mHelper = new BookStackDBHelper(context);
+	SQLiteDatabase mdb;
+
+	private BookBuilder builder;
+
+	public BookListDAO(SQLiteDatabase db) {
+		mdb = db;
+	}
+
+	public BookListDAO(Context applicationContext) {
+		BookStackDbHelper bookStackDbHelper = new BookStackDbHelper(applicationContext);
+		mdb = bookStackDbHelper.getWritableDatabase();
 	}
 
 	@Override
 	public void insertBook(Book book) {
-		mHelper.insertBook(book);
+		mdb.insert(LibraryTable.getTableName(), null, getBookContenValue(book));
 	}
 
 	@Override
-	public void deleteBook(Book book) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateBook(Book book) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public List<Book> getBooks() {
+	public List<Book> findAllBooks() {
 		List<Book> books = new ArrayList<Book>();
-		Cursor all = mHelper.findAllBooks();
-		Log.i(BookStacker.LOG_TAG, all.getColumnCount() + ":" + all.getCount() + ":" + all.toString());
-		all.moveToFirst();
-		do {
-			books.add(toBook(all));
-		} while (all.moveToNext());
-		all.close();
+		Cursor cursor = findAllBooksCursor();
+		Log.i(BookStacker.LOG_TAG, cursor.getColumnCount() + ":" + cursor.getCount() + ":" + cursor.toString());
+		while (cursor.moveToNext()) {
+			books.add(toBook(cursor));
+		}
+		cursor.close();
 		return books;
 	}
 
 	@Override
 	public int getCategoryNum() {
-		return mHelper.getCategoryMum();
+		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+		queryBuilder.setTables(LibraryTable.getTableName());
+		queryBuilder.setDistinct(true);
+		Cursor cursor = queryBuilder.query(mdb, new String[] { LibraryTable.category.getColumnName() }, null,
+				null, null, null, null);
+		int count = cursor.getCount();
+		cursor.close();
+		return count;
 	}
 
 	@Override
-	public Uri getPublisherIcon(Book book) {
-		Uri uri = mHelper.getPublisherImageUri(book.getPublisher());
-		return uri != null ? uri : Uri.parse(STUB_PUBLISHER_ICON);
+	public Uri getPublisherIconUri(Book book) {
+		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+		queryBuilder.setTables(PublisherTable.getTableName());
+		Cursor query = queryBuilder.query(mdb, null, book.getPublisher(), null, null, null, null);
+		if (query.moveToNext()) {
+			String path = query.getString(query.getColumnIndex(PublisherTable.path.getColumnName()));
+			query.close();
+			return path != null ? Uri.parse(path) : Uri.parse(STUB_PUBLISHER_ICON);
+		}
+		query.close();
+		return null;
 	}
-	private BookBuilder builder; 
+
+	@Override
+	public void updateBook(int id, Book book) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteBook(Book book) {
+		// TODO Auto-generated method stub
+	}
+
+	private Cursor findAllBooksCursor() {
+		SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
+		sqLiteQueryBuilder.setTables(LibraryTable.getTableName());
+		Cursor all = sqLiteQueryBuilder.query(mdb, null, null, null, null, null, null);
+		return all;
+	}
+
+	private ContentValues getBookContenValue(Book book) {
+		ContentValues values = new ContentValues();
+		values.put(LibraryTable.title.getColumnName(), book.getTitle());
+		values.put(LibraryTable.author.getColumnName(), book.getAuthor());
+		values.put(LibraryTable.vol.getColumnName(), book.getVol());
+		values.put(LibraryTable.publisher.getColumnName(), book.getPublisher());
+		return values;
+	}
+
 	private Book toBook(Cursor c) {
 		builder = BookBuilder.newBuilder();
 		builder.setTitle(c.getString(c.getColumnIndex(LibraryTable.title.getColumnName())));
