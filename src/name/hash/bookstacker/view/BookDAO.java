@@ -11,7 +11,7 @@ import android.net.Uri;
  * @author Hi
  * 
  */
-public interface BooksDAO {
+public interface BookDAO {
 
 	Uri getPublisherIconUri(Book book);
 
@@ -21,8 +21,8 @@ public interface BooksDAO {
 
 	void insertBook(Book book);
 
-	void updateBook(int id,Book book);
+	boolean updateBook(int id,Book book);
 
-	void deleteBook(Book book);
+	void deleteBook(int id);
 
 }

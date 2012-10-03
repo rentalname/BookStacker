@@ -13,6 +13,10 @@ public class BookBuilder {
 		book = new Book();
 	}
 
+	public void setId(int id) {
+		book.id = id;
+	}
+
 	public void setTitle(String title) {
 		book.title = title;
 	}
@@ -28,7 +32,7 @@ public class BookBuilder {
 	public void setPublisher(String publisher) {
 		book.publisher = publisher;
 	}
-	
+
 	public Book build() {
 		return book;
 	}
@@ -36,6 +40,8 @@ public class BookBuilder {
 	public void append(int num, LibraryTable libraryTable) {
 		switch (libraryTable) {
 		case id:
+			setId(num);
+			break;
 		case coverImageId:
 			break;
 		case vol:

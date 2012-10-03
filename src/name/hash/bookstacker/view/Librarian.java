@@ -16,17 +16,17 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-public class BookListDAO implements BooksDAO {
+public class Librarian implements BookDAO {
 	private static final String STUB_PUBLISHER_ICON = "/mnt/sdcard/picture/stub_publisher_icon.png";
 	SQLiteDatabase mdb;
 
 	private BookBuilder builder;
 
-	public BookListDAO(SQLiteDatabase db) {
+	public Librarian(SQLiteDatabase db) {
 		mdb = db;
 	}
 
-	public BookListDAO(Context applicationContext) {
+	public Librarian(Context applicationContext) {
 		BookStackDbHelper bookStackDbHelper = new BookStackDbHelper(applicationContext);
 		mdb = bookStackDbHelper.getWritableDatabase();
 	}
@@ -75,13 +75,17 @@ public class BookListDAO implements BooksDAO {
 	}
 
 	@Override
-	public void updateBook(int id, Book book) {
-		// TODO Auto-generated method stub
-
+	public boolean updateBook(int id, Book book) {
+		int update = mdb.update(LibraryTable.getTableName(), getBookContenValue(book), "?=?", new String[] {
+				LibraryTable.id.getColumnName(), String.valueOf(id) });
+		if (update <= 0) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public void deleteBook(Book book) {
+	public void deleteBook(int id) {
 		// TODO Auto-generated method stub
 	}
 
@@ -103,11 +107,11 @@ public class BookListDAO implements BooksDAO {
 
 	private Book toBook(Cursor c) {
 		builder = BookBuilder.newBuilder();
+		builder.setId(c.getInt(c.getColumnIndex(LibraryTable.id.getColumnName())));
 		builder.setTitle(c.getString(c.getColumnIndex(LibraryTable.title.getColumnName())));
 		builder.setVol(c.getInt(c.getColumnIndex(LibraryTable.vol.getColumnName())));
 		builder.setAuthor(c.getString(c.getColumnIndex(LibraryTable.author.getColumnName())));
 		builder.setPublisher(c.getString(c.getColumnIndex(LibraryTable.publisher.getColumnName())));
 		return builder.build();
 	}
-
 }

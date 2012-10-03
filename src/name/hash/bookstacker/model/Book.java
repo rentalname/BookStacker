@@ -1,6 +1,7 @@
 package name.hash.bookstacker.model;
 
 public class Book {
+	int id;
 	String title;
 	int vol;
 	String author;
@@ -16,6 +17,7 @@ public class Book {
 	}
 
 	public Book(Book book) {
+		id = book.id;
 		title = book.title;
 		vol = book.vol;
 		author = book.author;
@@ -26,6 +28,10 @@ public class Book {
 		category = book.category;
 		registered = book.registered;
 		coverImageId = book.coverImageId;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getTitle() {
@@ -44,4 +50,3 @@ public class Book {
 		return publisher;
 	}
 }
-
