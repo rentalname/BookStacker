@@ -5,6 +5,7 @@ import java.util.List;
 import name.hash.bookstacker.R;
 import name.hash.bookstacker.model.Book;
 import name.hash.bookstacker.model.DefaultBook;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -40,6 +41,8 @@ public class BookListView extends SherlockListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		
+		Intent intent = new Intent(getApplicationContext(),BooksView.class);
+		intent.putExtra(BooksView.SEND_KEY, position);
+		startActivity(intent);
 	}
 }
