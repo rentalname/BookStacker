@@ -28,5 +28,10 @@ public class BookListView extends SherlockListActivity {
 		getSupportMenuInflater().inflate(R.menu.activity_book_list, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Librarian.closingLibrary();
+	}
 }
