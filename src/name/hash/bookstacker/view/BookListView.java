@@ -6,6 +6,8 @@ import name.hash.bookstacker.R;
 import name.hash.bookstacker.model.Book;
 import name.hash.bookstacker.model.DefaultBook;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -33,5 +35,11 @@ public class BookListView extends SherlockListActivity {
 	protected void onStop() {
 		super.onStop();
 		Librarian.closingLibrary();
+	}
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		
 	}
 }
