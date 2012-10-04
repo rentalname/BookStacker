@@ -49,6 +49,20 @@ public class Librarian implements BookDAO {
 	}
 
 	@Override
+	public Book findById(int id) {
+		// TODO Auto-generated method stub
+		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+		queryBuilder.setTables(LibraryTable.getTableName());
+		Cursor cursor = queryBuilder.query(mdb, null,
+				String.format("%s = %d", LibraryTable.id.getColumnName(), id), null, null, null, null);
+		try {
+			return toBook(cursor);
+		} finally {
+			cursor.close();
+		}
+	}
+
+	@Override
 	public int getCategoryNum() {
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(LibraryTable.getTableName());

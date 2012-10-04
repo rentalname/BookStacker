@@ -19,9 +19,11 @@ public interface BookDAO {
 
 	List<Book> findAllBooks();
 
+	Book findById(int id);
+
 	void insertBook(Book book);
 
-	boolean updateBook(int id,Book book);
+	boolean updateBook(int id, Book book);
 
 	void deleteBook(int id);
 
