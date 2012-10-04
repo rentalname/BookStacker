@@ -17,7 +17,7 @@ public class BooksView extends SherlockActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		super.onCreate(savedInstanceState);
-		setContentView(layoutResId)
+		setContentView(R.layout.activity_book_list);
 		Intent intent = getIntent();
 		int position = intent.getIntExtra(SEND_KEY, 65468);
 		BookDAO dao = new Librarian(getApplicationContext());
