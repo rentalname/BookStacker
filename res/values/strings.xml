@@ -3,12 +3,19 @@
     <string name="app_name">BookStacker</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_book_list">BookList</string>
+    <string name="title_activity_book_list">Library</string>
     <string name="stubTitle">booktitleBOOKTITLEbookTitleBooktitle</string>
     <string name="stubVol">7</string>
     <string name="stubAuthor">BookAuthor</string>
     <string name="stubPublisher">BookPublisherInc</string>
     <string name="book_icon_description">book icon in</string>
     <string name="publisher_icon_description">publisher icon in</string>
+    <string name="title_activity_book_view">Detail</string>
+    <string name="stub_subtitle">BOOKSUBTITLE********</string>
+    <string name="stub_managementId">ISBN978‐4‐87311‐535‐1</string>
+    <string name="stub_issue">2014/3/10</string>
+    <string name="stub_register">2014/3/11</string>
+    <string name="desc_publisher_icon_description">this image is publisher&amp;apos;s logo</string>
+    <string name="desc_cover_image_description">this image is book\'s cover image</string>
 
 </resources>

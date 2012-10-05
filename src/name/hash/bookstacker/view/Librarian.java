@@ -29,6 +29,9 @@ public class Librarian implements BookDAO {
 	public Librarian(Context applicationContext) {
 		BookStackDbHelper bookStackDbHelper = new BookStackDbHelper(
 				applicationContext);
+		if (sdb != null && sdb.isOpen()) {
+			sdb.close();
+		}
 		sdb = bookStackDbHelper.getWritableDatabase();
 	}
 
@@ -139,8 +142,14 @@ public class Librarian implements BookDAO {
 		ContentValues values = new ContentValues();
 		values.put(LibraryTable.title.getColumnName(), book.getTitle());
 		values.put(LibraryTable.author.getColumnName(), book.getAuthor());
+		values.put(LibraryTable.subtitle.getColumnName(), book.getSubTitle());
 		values.put(LibraryTable.vol.getColumnName(), book.getVol());
 		values.put(LibraryTable.publisher.getColumnName(), book.getPublisher());
+		values.put(LibraryTable.issue.getColumnName(), book.getIssue());
+		values.put(LibraryTable.registered.getColumnName(),
+				book.getRegistered());
+		values.put(LibraryTable.managementId.getColumnName(),
+				book.getManagementId());
 		return values;
 	}
 
@@ -155,6 +164,14 @@ public class Librarian implements BookDAO {
 				.getColumnName())));
 		builder.setPublisher(c.getString(c
 				.getColumnIndex(LibraryTable.publisher.getColumnName())));
+		builder.setSubTitle(c.getString(c.getColumnIndex(LibraryTable.subtitle
+				.getColumnName())));
+		builder.setIssue(c.getString(c.getColumnIndex(LibraryTable.issue
+				.getColumnName())));
+		builder.setRegistered(c.getString(c
+				.getColumnIndex(LibraryTable.registered.getColumnName())));
+		builder.setManagementId(c.getString(c
+				.getColumnIndex(LibraryTable.managementId.getColumnName())));
 		return builder.build();
 	}
 

@@ -49,4 +49,21 @@ public class Book {
 	public String getPublisher() {
 		return publisher;
 	}
+
+	public String getSubTitle() {
+		return subtitle;
+	}
+
+	public String getIssue() {
+		return issue;
+	}
+
+	public String getRegistered() {
+		return registered;
+	}
+
+	public String getManagementId() {
+		return managementId;
+	}
+
 }

@@ -37,6 +37,22 @@ public class BookBuilder {
 		return book;
 	}
 
+	public void setManagementId(String id) {
+		book.managementId = id;
+	}
+
+	public void setSubTitle(String subtitle) {
+		book.subtitle = subtitle;
+	}
+
+	public void setIssue(String date) {
+		book.issue = date;
+	}
+
+	public void setRegistered(String date) {
+		book.registered = date;
+	}
+
 	public void append(int num, LibraryTable libraryTable) {
 		switch (libraryTable) {
 		case id:
