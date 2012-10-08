@@ -28,23 +28,25 @@ public class BooksView extends SherlockActivity {
 		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_book_view);
-		{
-			title = (TextView) findViewById(R.id.desc_title);
-			vol = (TextView) findViewById(R.id.desc_vol);
-			subTitle = (TextView) findViewById(R.id.desc_subtitle);
-			author = (TextView) findViewById(R.id.desc_author);
-			publisher = (TextView) findViewById(R.id.desc_publisher);
-			issue = (TextView) findViewById(R.id.desc_issue);
-			register = (TextView) findViewById(R.id.desc_register);
-			managementId = (TextView) findViewById(R.id.desc_managementId);
-		}
+
+		title = (TextView) findViewById(R.id.desc_title);
+		vol = (TextView) findViewById(R.id.desc_vol);
+		subTitle = (TextView) findViewById(R.id.desc_subtitle);
+		author = (TextView) findViewById(R.id.desc_author);
+		publisher = (TextView) findViewById(R.id.desc_publisher);
+		issue = (TextView) findViewById(R.id.desc_issue);
+		register = (TextView) findViewById(R.id.desc_register);
+		managementId = (TextView) findViewById(R.id.desc_managementId);
+
 		Intent intent = getIntent();
 		int position = intent.getIntExtra(SEND_KEY, 65468);
+
 		BookDAO dao = new Librarian(getApplicationContext());
+
 		List<Book> books = dao.findAllBooks();
 		Book book = books.get(position);
-		setBookInfo(book);
 
+		setBookInfo(book);
 	}
 
 	private void setBookInfo(Book book) {
