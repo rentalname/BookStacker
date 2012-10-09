@@ -174,5 +174,4 @@ public class Librarian implements BookDAO {
 				.getColumnIndex(LibraryTable.managementId.getColumnName())));
 		return builder.build();
 	}
-
 }
